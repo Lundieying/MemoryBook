@@ -45,7 +45,8 @@ public class SaveNewBook : MonoBehaviour
     {
         foreach (var item in Name)
         {
-            if (item.transform.GetComponent<ReturnData>().Data() == "")
+            Debug.Log(item.transform.GetComponent<ReturnData>().Data()+"\n"+string.IsNullOrWhiteSpace(item.transform.GetComponent<ReturnData>().Data()));
+            if (string.IsNullOrWhiteSpace(item.transform.GetComponent<ReturnData>().Data()) || item.transform.GetComponent<ReturnData>().Data() == "\u200B")
             {
                 return false;
             }
