@@ -8,6 +8,12 @@ public class MemoryBookManager : MonoBehaviour
 {
     //----------重要对象----------
     public GameObject Lists;
+    public GameObject prompt;
+    public GameObject AddMemoryBook;
+    public GameObject OpenMemoryBook;
+    public GameObject Title;
+    public GameObject Description;
+    public List<GameObject> AddingPageTextBoxes;
     //----------重要对象----------
 
     //----------定义用于转换JSON文件的对象----------
@@ -30,7 +36,7 @@ public class MemoryBookManager : MonoBehaviour
         public List <string> Types;
         public List <WordData> Entries;
     }
-    public MemoryBook memoryBook = new MemoryBook();//该代码调试用
+    public MemoryBook memoryBook = new MemoryBook();
     //----------定义用于转换JSON文件的对象----------
 
     //----------函数定义----------
