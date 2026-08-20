@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8372972186412730471}
   - component: {fileID: 3093407030903469645}
   - component: {fileID: 5034500094495815213}
+  - component: {fileID: 368048195625820924}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -236,7 +237,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.89711905, g: 1, b: 0.6622641, a: 1}
     m_HighlightedColor: {r: 0.8980392, g: 1, b: 0.7882353, a: 1}
     m_PressedColor: {r: 0.8980392, g: 1, b: 0.7882353, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.8980393, g: 1, b: 0.6627451, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -268,4 +269,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11703bc6c7019e147b3e7322b4c27cdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  back: 0
+  goBack: 0
+--- !u!114 &368048195625820924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7238941034643847432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e58eb61ca46044a99f7b4aa6639bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookName: {fileID: 6007938077568441361}
