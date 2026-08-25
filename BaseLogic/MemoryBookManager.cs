@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 
 public class MemoryBookManager : MonoBehaviour
@@ -13,6 +15,8 @@ public class MemoryBookManager : MonoBehaviour
     public GameObject OpenMemoryBook;
     public GameObject Title;
     public GameObject Description;
+    public GameObject Perfect;
+    public GameObject Concept;
     public List<GameObject> AddingPageTextBoxes;
     //----------重要对象----------
 
@@ -36,15 +40,22 @@ public class MemoryBookManager : MonoBehaviour
         public List <string> Types;
         public List <WordData> Entries;
     }
-    public MemoryBook memoryBook = new MemoryBook();
     //----------定义用于转换JSON文件的对象----------
+
+    //----------重要变量----------
+    public MemoryBook memoryBook = new MemoryBook();
+    public bool memoryMode;//true为完美模式，false为概念模式
+    List<List<string>> entries = new List<List<string>>();
+    List<double> entryWeight = new List<double>();
+    //----------重要变量----------
 
     //----------函数定义----------
     public MemoryBook Read (string memoryBookJson/*记忆本名称(不加.json)*/)//读取函数
     {
         MemoryBook book = new MemoryBook();
 
-        string stringPath = Path.Combine(Application.streamingAssetsPath, memoryBookJson + ".json");// @"D:\User\LundieyingProgram\Unity\MemoryBook\Assets\Books\English\English.json";
+        string stringPath = Path.Combine(Application.persistentDataPath, memoryBookJson + ".json");// @"D:\User\LundieyingProgram\Unity\MemoryBook\Assets\Books\English\English.json";
+        Debug.Log(stringPath);
 
         string jsonString = File.ReadAllText(stringPath);//读取JSON文件
         book = JsonUtility.FromJson<MemoryBook>(jsonString);//将JSON转化为对象
@@ -81,7 +92,7 @@ public class MemoryBookManager : MonoBehaviour
         File.WriteAllText(stringPath, jsonString);//保存文件
     }
 
-    public MemoryBook Write (MemoryBook book, List <string> entry)//写入函数(写入新词条重载)
+    public MemoryBook Write (MemoryBook book, List <string> entry)//写入函数
     {
         foreach (var item in book.Entries)
         {
@@ -116,10 +127,43 @@ public class MemoryBookManager : MonoBehaviour
         File.WriteAllText (stringPath, jsonString);//保存新创建文件
         Debug.Log(stringPath);
     }
+
+    public void Question (MemoryBook memoryBook)//出题函数
+    {
+        foreach (var item in memoryBook.Entries)
+        {
+            if (item.stability == 0)
+            {
+                entryWeight.Add(2592000);//一个月（即算法理论最大上限)
+                continue;
+            }
+            item.stability = item.stability * ((item.latest_time - item.earliest_time) + (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - item.earliest_time)) / 2 / (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - item.earliest_time);
+            item.latest_time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();//将时间全部同步至现在
+            entries.Add(item.entry);
+            entryWeight.Add(item.stability);
+        }
+
+        double randomNum = UnityEngine.Random.Range(0f, (float)entryWeight[entryWeight.Count - 1]);//选取随机数
+        Debug.Log(randomNum);
+        List<string> goalEntry = new List<string>();
+        for (int i = 0; i < entryWeight.Count; i++)
+        {
+            if (entryWeight[i] >= randomNum)
+            {
+                goalEntry = entries[i];
+                break;
+            }
+        }
+        GameObject UI = Instantiate(Perfect, Lists.transform);
+
+        GameObject RectContent = UI.transform.Find("Viewport/Content").gameObject;
+        RectContent.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[0];
+        RectContent.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[2];
+    }
     //----------函数定义----------
 
     ////调试用
-    //void Start()
+    //void Choose()
     //{
     //    memoryBook = Read("English");//读取
     //    Save("English", memoryBook);//保存

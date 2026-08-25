@@ -27,6 +27,12 @@ public class ShowBook : MonoBehaviour
             TopFrame.transform.GetChild(i+1).GetComponent<TMP_InputField>().text = memoryBook.Types[i];//展示表格顶部
         }
 
+        //删除原词条
+        for (int i = 1; i < contentParent.childCount; i++)
+        {
+            Destroy(contentParent.transform.GetChild(i).gameObject);
+        }
+
         //展示词条
         WordData wordData = new WordData();
         for (int i = 0; i < memoryBook.Entries.Count; i++)

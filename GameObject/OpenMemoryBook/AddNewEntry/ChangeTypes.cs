@@ -10,14 +10,14 @@ public class ChangeTypes : MonoBehaviour
     public List<GameObject> element;
     public GameObject Add;
     public GameObject Manage;
-    public GameObject Start;
+    public GameObject Choose;
 
     void Awake()
     {
         transform.GetComponent<Button>().onClick.AddListener(() =>
         {
             Add.SetActive(true);
-            //Start.SetActive(false);
+            Choose.SetActive(false);
             Manage.SetActive(false);
 
             Debug.Log("Add");

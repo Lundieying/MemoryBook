@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManageBook : MonoBehaviour
+public class ChooseMode : MonoBehaviour
 {
     public GameObject Add;
     public GameObject Manage;
@@ -15,9 +15,8 @@ public class ManageBook : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             Add.SetActive(false);
-            Choose.SetActive(false);
-            Manage.SetActive(true);
-            transform.GetComponent<ShowBook>().Show();
+            Choose.SetActive(true);
+            Manage.SetActive(false);
         });
     }
 }
