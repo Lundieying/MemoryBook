@@ -56,9 +56,9 @@ public class SaveNewBook : MonoBehaviour
         });
     }
 
-    bool CheckElementName(List<GameObject> Name)//检查是否填入无效字符
+    bool CheckElementName(List<GameObject> Names)//检查是否填入无效字符
     {
-        foreach (var item in Name)
+        foreach (var item in Names)
         {
             Debug.Log(item.transform.GetComponent<ReturnData>().Data()+"\n"+string.IsNullOrWhiteSpace(item.transform.GetComponent<ReturnData>().Data()));
             if (string.IsNullOrWhiteSpace(item.transform.GetComponent<ReturnData>().Data()) || item.transform.GetComponent<ReturnData>().Data() == "\u200B")
