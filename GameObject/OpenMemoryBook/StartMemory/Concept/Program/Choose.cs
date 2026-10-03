@@ -22,7 +22,8 @@ public class Choose : MonoBehaviour
                     Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(2);
                     break;
             }
-
+            Camera.main.GetComponent<MemoryBookManager>().Next();
+            Destroy(transform.parent.gameObject, 1);//一秒后删除自己
         });
     }
 }

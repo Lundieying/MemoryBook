@@ -45,6 +45,7 @@ public class MemoryBookManager : MonoBehaviour
     //----------重要变量----------
     public MemoryBook memoryBook = new MemoryBook();
     public bool memoryMode;//true为完美模式，false为概念模式
+    public bool canMemory;
     public int question = 0/*调试暂时*/;//0以Exercise为问题，1以Answer为问题
     public int questionIndex;
     public List<List<string>> entries = new List<List<string>>();
@@ -89,6 +90,22 @@ public class MemoryBookManager : MonoBehaviour
 
     public void Save (string memoryBookJson/*记忆本名称(不加.json)*/, MemoryBook book/*记忆本对象*/)//保存函数
     {
+        //同步所有时间至现在
+        foreach (var item in memoryBook.Entries)
+        {
+            item.latest_time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        }
+        foreach (var item in memoryBook.Entries)
+        {
+            item.latest_time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();//将最晚时间改为现在时间戳
+            Debug.Log(item.latest_time);
+
+            if (item.latest_time - item.earliest_time >= 2592000)//仅记录一个月数据
+            {
+                item.earliest_time = item.latest_time - 2592000;
+            }
+        }
+
         string jsonString = JsonUtility.ToJson(book, true);//将对象转化为JSON
         string stringPath = Path.Combine(Application.persistentDataPath, memoryBookJson + ".json");//@"D:\User\LundieyingProgram\Unity\MemoryBook\Assets\Books\English\English.json";//获取保存路径
         File.WriteAllText(stringPath, jsonString);//保存文件
@@ -174,7 +191,15 @@ public class MemoryBookManager : MonoBehaviour
                 break;
             }
         }
-        GameObject UI = Instantiate(Perfect, Lists.transform);
+        GameObject UI;
+        if (memoryMode)
+        {
+            UI = Instantiate(Perfect, Lists.transform);
+        }
+        else
+        {
+            UI = Instantiate(Concept, Lists.transform);
+        }
         Debug.Log(UI);
         UI.GetComponent<RectTransform>().anchoredPosition = Vector3.right * 3240;//初始位置
 
@@ -205,7 +230,15 @@ public class MemoryBookManager : MonoBehaviour
                 break;
             }
         }
-        GameObject UI = Instantiate(Perfect, Lists.transform);
+        GameObject UI;
+        if (memoryMode)
+        {
+            UI = Instantiate(Perfect, Lists.transform);
+        }
+        else
+        {
+            UI = Instantiate(Concept, Lists.transform);
+        }
         Debug.Log(UI);
         UI.GetComponent<RectTransform>().anchoredPosition = Vector3.right * 6480;//初始位置
         UI.GetComponent<Into>().Move();
@@ -375,6 +408,19 @@ public class MemoryBookManager : MonoBehaviour
         //将副本存回去
         memoryBook.Entries[questionIndex].stability = stability;
         memoryBook.Entries[questionIndex].familiarity = familiarity;
+
+        for (int i = 0; i < entries.Count; i++)
+        {
+            Debug.Log("entries: " + entries[i][0]);
+            if (i == 0)
+            {
+                Debug.Log("entryWeight: " + (entryWeight[i] / entryWeight[entryWeight.Count - 1]));
+            }
+            else
+            {
+                Debug.Log("entryWeight: " + (entryWeight[i] - entryWeight[i - 1] / entryWeight[entryWeight.Count - 1]));
+            }
+        }
     }
     //----------函数定义----------
 

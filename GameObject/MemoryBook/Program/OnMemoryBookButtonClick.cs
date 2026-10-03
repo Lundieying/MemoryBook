@@ -29,6 +29,7 @@ public class OnMemoryBookButtonClick : MonoBehaviour
 
     public IEnumerator Move(int times)
     {
+        Camera.main.GetComponent<MemoryBookManager>().canMemory = false;
         moveTime = true;//上锁
 
         RectTransform rectTransform = GetComponent<RectTransform>();
@@ -43,5 +44,6 @@ public class OnMemoryBookButtonClick : MonoBehaviour
 
         transform.position = end;//确保精准停位
         moveTime = false;//解锁
+        Camera.main.GetComponent<MemoryBookManager>().canMemory = true;
     }
 }

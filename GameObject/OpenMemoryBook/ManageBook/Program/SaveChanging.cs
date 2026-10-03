@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static MemoryBookManager;
-using static UnityEditor.Progress;
 
 public class SaveChanging : MonoBehaviour
 {
@@ -28,11 +27,17 @@ public class SaveChanging : MonoBehaviour
             memoryBook = Camera.main.GetComponent<MemoryBookManager>().memoryBook;
             //读取数据
             name = Name.transform.GetComponent<TMP_InputField>().text;//名称
-            description = Description.GetComponent<TMP_InputField>().text;//描述
+            description = Description.GetComponent<TMP_InputField>().text.Replace("\u200B", "");//描述
+            if (string.IsNullOrWhiteSpace(name) && (string.IsNullOrWhiteSpace(description) || description == "")/*More除外*/)//若填入空白||未填入
+            {
+                GameObject prompt = Camera.main.GetComponent<MemoryBookManager>().prompt;//获取弹窗对象
+                prompt.transform.GetComponent<Prompt>().PromptWindow("Please complete The Name or The Description.");//弹出弹窗提示
+                return;//结束
+            }
             for (int i = 0; i < 3; i++)//类型
             {
-                string type = Entries/*词条列表*/.transform.GetChild(0)/*顶部栏*/.transform.GetChild(i+1)/*类型*/.transform.GetComponent<TMP_InputField>().text;
-                if ((string.IsNullOrWhiteSpace(type) || type == "\u200B") && i != 2/*More除外*/)//若填入空白||未填入
+                string type = Entries/*词条列表*/.transform.GetChild(0)/*顶部栏*/.transform.GetChild(i+1)/*类型*/.transform.GetComponent<TMP_InputField>().text.Replace("\u200B", "");
+                if ((string.IsNullOrWhiteSpace(type) || type == "") && i != 2/*More除外*/)//若填入空白||未填入
                 {
                     GameObject prompt = Camera.main.GetComponent<MemoryBookManager>().prompt;//获取弹窗对象
                     prompt.transform.GetComponent<Prompt>().PromptWindow("Please complete The Types.");//弹出弹窗提示
@@ -46,8 +51,8 @@ public class SaveChanging : MonoBehaviour
                 Transform wordDataObj = Entries.transform.GetChild(i);
                 for (int j = 0; j < 3; j++)
                 {
-                    string element = wordDataObj.transform.GetChild(j).transform.GetComponent<TMP_InputField>().text;
-                    if ((string.IsNullOrWhiteSpace(element) || element == "\u200B") && j != 2/*More除外*/)//若填入空白||未填入
+                    string element = wordDataObj.transform.GetChild(j).transform.GetComponent<TMP_InputField>().text.Replace("\u200B", "");
+                    if ((string.IsNullOrWhiteSpace(element) || element == "") && j != 2/*More除外*/)//若填入空白||未填入
                     {
                         GameObject prompt = Camera.main.GetComponent<MemoryBookManager>().prompt;//获取弹窗对象
                         prompt.transform.GetComponent<Prompt>().PromptWindow("Please complete The Entries.");//弹出弹窗提示
