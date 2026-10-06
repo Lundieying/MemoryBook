@@ -39,7 +39,7 @@ public class ShowBook : MonoBehaviour
         {
             wordData = memoryBook.Entries[i];
             GameObject UI = Instantiate(Entry, contentParent);//添加词条
-            for (int j = 0;  j < memoryBook.Types.Count; j++)//显示词条内容
+            for (int j = 0;  j < memoryBook.Entries[i].entry.Count; j++)//显示词条内容
             {
                 UI.transform.GetChild(j).GetComponent<TMP_InputField>().text = wordData.entry[j];
             }

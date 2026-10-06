@@ -117,6 +117,10 @@ public class MemoryBookManager : MonoBehaviour
         for (int i = 0; i < entry.Count; i++)
         {
             entry[i] = entry[i].Replace("\u200B", "");
+            if (i == entry.Count - 1 && entry[i] == "")
+            {
+                entry[i] = "无更多";//加默认文字，防止丢失
+            }
         }
 
         foreach (var item in book.Entries)
@@ -211,7 +215,7 @@ public class MemoryBookManager : MonoBehaviour
         }
         else
         {
-            RectContent.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[1];//Answer
+            RectContent.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[question];//Answer
             RectContent.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[2];//More
         }
     }
