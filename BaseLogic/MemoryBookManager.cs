@@ -215,7 +215,7 @@ public class MemoryBookManager : MonoBehaviour
         }
         else
         {
-            RectContent.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[question];//Answer
+            RectContent.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[1 - question];//Answer
             RectContent.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = goalEntry[2];//More
         }
     }
