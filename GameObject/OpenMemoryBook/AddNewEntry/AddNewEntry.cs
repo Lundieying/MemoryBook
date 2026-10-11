@@ -33,6 +33,10 @@ public class AddNewEntry : MonoBehaviour
                 {
                     entry.Add(More.transform.GetComponent<ReturnData>().Data());//录入More
                 }
+                else
+                {
+                    entry.Add("无更多");
+                }
             }
             else//弹窗提示
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MemoryBookManager : MonoBehaviour
@@ -83,6 +84,11 @@ public class MemoryBookManager : MonoBehaviour
             {
                 item.earliest_time = item.latest_time - 2592000;
             }
+        }
+        foreach (var item in book.Entries)
+        {
+            item.familiarity = math.clamp(item.familiarity, 0f, 1f);
+            item.stability = math.clamp(item.stability, 0f, 1f);
         }
 
         return book;
@@ -293,14 +299,14 @@ public class MemoryBookManager : MonoBehaviour
             }
             else
             {
-                familiarity += (1d - familiarity) / 10;
+                familiarity *= 1.1;
             }
         }
         else//Èô»Ø´ð´íÎó
         {
             if (familiarity < 0.2)
             {
-                familiarity -= (1d - familiarity) / 10;
+                familiarity *= 0.9;
             }
             else if (familiarity < 0.5)
             {
@@ -356,7 +362,7 @@ public class MemoryBookManager : MonoBehaviour
                 }
                 else
                 {
-                    familiarity += (1d - familiarity) / 10;
+                    familiarity *= 1.1;
                 }
                 break;
             case 1:
@@ -384,7 +390,7 @@ public class MemoryBookManager : MonoBehaviour
             case 2://Í¬Perfect´íÎó
                 if (familiarity < 0.2)
                 {
-                    familiarity -= (1d - familiarity) / 10;
+                    familiarity *= 0.9;
                 }
                 else if (familiarity < 0.5)
                 {

@@ -13,13 +13,13 @@ public class Choose : MonoBehaviour
             switch (name)
             {
                 case "Bad":
-                    Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(0);
+                    Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(2);
                     break;
                 case "NotTooBad":
                     Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(1);
                     break;
                 case "Great":
-                    Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(2);
+                    Camera.main.GetComponent<MemoryBookManager>().ChangeWeight(0);
                     break;
             }
             Camera.main.GetComponent<MemoryBookManager>().Next();
